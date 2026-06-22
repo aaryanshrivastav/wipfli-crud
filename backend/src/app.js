@@ -6,6 +6,7 @@ import products from "./routes/productRoutes.js";
 import orders from "./routes/orderRoutes.js";
 import users from "./routes/userRoutes.js";
 import orderitems from "./routes/orderitemsRoutes.js";
+import auth from "./routes/authRoute.js"
 
 const app = express();
 
@@ -17,5 +18,6 @@ app.use("/product", products);
 app.use("/orders", orders);
 app.use("/users", users);
 app.use("/orderItems", orderitems);
+app.use("/auth", auth)
 
 export default app;
