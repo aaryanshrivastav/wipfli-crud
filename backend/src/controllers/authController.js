@@ -5,7 +5,8 @@ import {
   createUser,
   saveRefreshToken,
   findRefreshToken,
-  deleteRefreshToken
+  deleteRefreshToken,
+  findUserById
 } from "../repositories/authRepo.js";
 
 import {

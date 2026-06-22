@@ -51,7 +51,7 @@ export async function createUser(user) {
   const session = await connection.openSession();
 
   try {
-    operation=await session.executeStatement(`
+    const operation=await session.executeStatement(`
         INSERT INTO crud.crud.app_users
       (
         user_code,
@@ -71,11 +71,7 @@ export async function createUser(user) {
         CURRENT_TIMESTAMP
       )
     `);
-    let status;
-
-    do {
-    status = await operation.getStatus();
-    } while (status !== "SUCCEEDED");
+    await operation.close();
 
   } finally {
     await session.close();
@@ -88,7 +84,7 @@ export async function saveRefreshToken(user_id, refresh_token, expires_at) {
   const session = await connection.openSession();
 
   try {
-    await session.executeStatement(`
+    const operation = await session.executeStatement(`
         INSERT INTO crud.crud.refresh_tokens
         (
         user_id,
@@ -103,6 +99,7 @@ export async function saveRefreshToken(user_id, refresh_token, expires_at) {
         CURRENT_TIMESTAMP
         )
     `);
+    await operation.close();
   } finally {
     await session.close();
   }
@@ -136,10 +133,12 @@ export async function deleteRefreshToken(refreshToken) {
   const session = await connection.openSession();
 
   try {
-    await session.executeStatement(`
+    const operation = await session.executeStatement(`
       DELETE FROM crud.crud.refresh_tokens
       WHERE refresh_token = '${refreshToken}'
     `);
+    await operation.close();
+
   } finally {
     await session.close();
   }

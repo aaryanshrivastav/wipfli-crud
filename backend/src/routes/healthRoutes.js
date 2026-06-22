@@ -1,7 +1,20 @@
 import { Router } from "express";
 import { getConnection } from "../config/databricks.js";
+import { authMiddleware } from "../middleware/authMiddleware.js"
+import { roleMiddleware } from "../middleware/roleMiddleware.js"
 
 const router = Router();
+
+router.get(
+  "/admin-test",
+  authMiddleware,
+  roleMiddleware(["ADMIN"]),
+  (req, res) => {
+    res.json({
+      message: "Admin access granted"
+    });
+  }
+);
 
 router.get("/ping", (req, res) => {
   res.status(200).json({
